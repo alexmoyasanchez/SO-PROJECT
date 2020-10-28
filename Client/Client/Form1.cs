@@ -28,14 +28,15 @@ namespace WindowsFormsApplication1
         //Iniciar sesión
         private void button2_Click(object sender, EventArgs e)
         {
-            IPAddress direc = IPAddress.Parse("192.168.1.104");
-            IPEndPoint ipep = new IPEndPoint(direc, 9050);
+            IPAddress direc = IPAddress.Parse("192.168.56.102");
+            IPEndPoint ipep = new IPEndPoint(direc, 9070);
             //Crear el socket
             server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             try
             {
                 server.Connect(ipep);
                 this.BackColor = Color.Green;
+                MessageBox.Show("Conexion establecida");
             }
             catch (SocketException ex)
             {
@@ -47,9 +48,7 @@ namespace WindowsFormsApplication1
         private void button1_Click(object sender, EventArgs e)
         {
             //Enviamos la petición al servidor
-            string player = Username.Text;
-            string password = Password.Text;
-            string message = "0/"+player+"/"+ password;
+            string message = "5/"+ Username.Text +"/"+ Password.Text;
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(message);
             server.Send(msg);
             //Recibimos la respuesta del servidor
@@ -62,51 +61,64 @@ namespace WindowsFormsApplication1
         private void button3_Click(object sender, EventArgs e)
         {
             //Enviamos la petición al servidor
-            string player = Username.Text;
-            string password = Password.Text;
-            string message = "0/" + player + "/" + password;
+            string message = "1/" + Username.Text;
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(message);
             server.Send(msg);
             //Recibimos la respuesta del servidor
             byte[] msg2 = new byte[80];
             server.Receive(msg2);
             message = Encoding.ASCII.GetString(msg2).Split('\0')[0];
-            MessageBox.Show("New user accepted.");
+            MessageBox.Show("Los amigos de " + Username.Text + " son " + message);
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
             //Enviamos la petición al servidor
-            string player = Username.Text;
-            string message = "2/" + player;
+            string message = "2/" + Username.Text;
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(message);
             server.Send(msg);
             //Recibimos la respuesta del servidor
             byte[] msg2 = new byte[80];
             server.Receive(msg2);
             message = Encoding.ASCII.GetString(msg2).Split('\0')[0];
-            MessageBox.Show("Ha ganado {0} partidas", message);
+            MessageBox.Show(Username.Text + " ha ganado el " + message + "% de las partidas");
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
             //Enviamos la petición al servidor
-            string player = Username.Text;
-            string message = "3/" + player;
+            string message = "3/" + Username.Text;
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(message);
             server.Send(msg);
             //Recibimos la respuesta del servidor
             byte[] msg2 = new byte[80];
             server.Receive(msg2);
             message = Encoding.ASCII.GetString(msg2).Split('\0')[0];
-            MessageBox.Show("Ha ganado {0}% de partidas jugadas.", message);
+            MessageBox.Show(Username.Text + " ha ganado: " + message + " partidas");
         }
 
         private void LogOut_Click(object sender, EventArgs e)
         {
+            string mensaje = "0/";
+
+            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+            server.Send(msg);
+
             this.BackColor = Color.Gray;
             server.Shutdown(SocketShutdown.Both);
             server.Close();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            string message = "4/" + Username.Text;
+            byte[] msg = System.Text.Encoding.ASCII.GetBytes(message);
+            server.Send(msg);
+            //Recibimos la respuesta del servidor
+            byte[] msg2 = new byte[80];
+            server.Receive(msg2);
+            message = Encoding.ASCII.GetString(msg2).Split('\0')[0];
+            MessageBox.Show(Username.Text + " ha jugado: " + message + " partidas");
         }
         
 

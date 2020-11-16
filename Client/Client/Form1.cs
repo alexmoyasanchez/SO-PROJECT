@@ -29,7 +29,7 @@ namespace WindowsFormsApplication1
         private void button2_Click(object sender, EventArgs e)
         {
             IPAddress direc = IPAddress.Parse("192.168.56.102");
-            IPEndPoint ipep = new IPEndPoint(direc, 9070);
+            IPEndPoint ipep = new IPEndPoint(direc, 9081);
             //Crear el socket
             server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             try
@@ -119,6 +119,18 @@ namespace WindowsFormsApplication1
             server.Receive(msg2);
             message = Encoding.ASCII.GetString(msg2).Split('\0')[0];
             MessageBox.Show(Username.Text + " ha jugado: " + message + " partidas");
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            string message = "6/";
+            byte[] msg = System.Text.Encoding.ASCII.GetBytes(message);
+            server.Send(msg);
+            //Recibimos la respuesta del servidor
+            byte[] msg2 = new byte[80];
+            server.Receive(msg2);
+            message = Encoding.ASCII.GetString(msg2).Split('\0')[0];
+            MessageBox.Show("El número de conectados y el nombre de estos es: " + message );
         }
         
 

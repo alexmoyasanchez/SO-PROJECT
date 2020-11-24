@@ -40,18 +40,21 @@
             this.LogOut = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
+            this.button9 = new System.Windows.Forms.Button();
+            this.contLbl = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // Username
             // 
-            this.Username.Location = new System.Drawing.Point(306, 97);
+            this.Username.Location = new System.Drawing.Point(125, 80);
             this.Username.Name = "Username";
             this.Username.Size = new System.Drawing.Size(100, 20);
             this.Username.TabIndex = 0;
             // 
             // Password
             // 
-            this.Password.Location = new System.Drawing.Point(306, 133);
+            this.Password.Location = new System.Drawing.Point(125, 116);
             this.Password.Name = "Password";
             this.Password.Size = new System.Drawing.Size(100, 20);
             this.Password.TabIndex = 1;
@@ -59,7 +62,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(222, 100);
+            this.label1.Location = new System.Drawing.Point(41, 83);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(29, 13);
             this.label1.TabIndex = 2;
@@ -68,7 +71,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(222, 140);
+            this.label2.Location = new System.Drawing.Point(41, 123);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(53, 13);
             this.label2.TabIndex = 3;
@@ -76,7 +79,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(510, 89);
+            this.button1.Location = new System.Drawing.Point(510, 48);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(161, 23);
             this.button1.TabIndex = 4;
@@ -86,7 +89,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(510, 130);
+            this.button2.Location = new System.Drawing.Point(510, 77);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(161, 23);
             this.button2.TabIndex = 5;
@@ -154,11 +157,43 @@
             this.button7.UseVisualStyleBackColor = true;
             this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(510, 106);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(161, 23);
+            this.button8.TabIndex = 12;
+            this.button8.Text = "Conectar";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
+            // button9
+            // 
+            this.button9.Location = new System.Drawing.Point(510, 135);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(161, 23);
+            this.button9.TabIndex = 13;
+            this.button9.Text = "Desconectar";
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
+            // 
+            // contLbl
+            // 
+            this.contLbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.contLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.contLbl.Location = new System.Drawing.Point(243, 66);
+            this.contLbl.Name = "contLbl";
+            this.contLbl.Size = new System.Drawing.Size(148, 92);
+            this.contLbl.TabIndex = 14;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(701, 334);
+            this.Controls.Add(this.contLbl);
+            this.Controls.Add(this.button9);
+            this.Controls.Add(this.button8);
             this.Controls.Add(this.button7);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.LogOut);
@@ -193,6 +228,9 @@
         private System.Windows.Forms.Button LogOut;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.Label contLbl;
     }
 }
 

@@ -12,8 +12,10 @@ using System.IO;
 using System.Threading;
 
 
+
 namespace WindowsFormsApplication1
 {
+    
     public partial class PantallaInicio : Form
     {
         Socket servidor;
@@ -48,18 +50,6 @@ namespace WindowsFormsApplication1
                     string mensaje = trozos[1];
                     switch (opcion)
                     {
-                        case 1: //Crear cuenta
-                            if (mensaje =="1")
-                            {
-                                MessageBox.Show("Usuario registrado correctamente");
-                            }
-                            else
-                            {
-                                MessageBox.Show("El nombre de usuario no está disponible");
-
-                            }
-                            break;
-
                         case 2: //Iniciar sesion
                             if (Convert.ToInt32(mensaje) == 1)
                             {
@@ -83,6 +73,35 @@ namespace WindowsFormsApplication1
                                     j++;
                                 }
                             break;
+                        case 4:
+                            MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+                            DialogResult result;
+                            string pregunta = mensaje + " te invita a jugar ¿Aceptas?";
+                            result = MessageBox.Show(pregunta, "invitacion", buttons);
+                            if (result == System.Windows.Forms.DialogResult.Yes)
+                            {
+                                string message = "9/" + mensaje + "/" + trozos[2];
+                                byte[] msgL = System.Text.Encoding.ASCII.GetBytes(message);
+                                servidor.Send(msgL);
+                            }
+                            else
+                            {
+                                string message = "10/" + mensaje + "/" + trozos[2];
+                                byte[] msgL = System.Text.Encoding.ASCII.GetBytes(message);
+                                servidor.Send(msgL);
+                            }
+                            break;
+                        case 5:
+                            MessageBox.Show(mensaje);
+                            break;
+                        case 6:
+                            MessageBox.Show(mensaje);
+                            break;
+                        case 7: //Chat
+                            string jugadorchat = trozos[1];
+                            string datoschat = trozos[2];
+                            chat.AppendText(jugadorchat + ":" + datoschat);
+                            break;
                     }
                 }
                 catch (FormatException)
@@ -96,7 +115,7 @@ namespace WindowsFormsApplication1
         private void Conectar_Click(object sender, EventArgs e)
         {
             IPAddress direc = IPAddress.Parse("147.83.117.22");
-            IPEndPoint ipep = new IPEndPoint(direc, 50010);
+            IPEndPoint ipep = new IPEndPoint(direc, 50011);
             servidor = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             try
             {
@@ -112,23 +131,10 @@ namespace WindowsFormsApplication1
             ThreadStart ts = delegate { AtenderServidor(); };
             atender = new Thread(ts);
             atender.Start();
-        }
 
-        // Iniciar sesión
-        private void IniciarSesion_Click(object sender, EventArgs e)
-        {
-            string message = "6/"+ Username.Text +"/"+ Password.Text;
+            string message = "6/" + Username.Text + "/" + Password.Text;
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(message);
             servidor.Send(msg);
-            //AtenderServidor();
-        }
-        // Crear cuenta
-        private void CrearCuenta_Click(object sender, EventArgs e)
-        {
-            string message = "5/"+ Username.Text +"/"+ Password.Text;
-            byte[] msg = System.Text.Encoding.ASCII.GetBytes(message);
-            servidor.Send(msg);
-           // AtenderServidor();
         }
 
         private void PorcentajeGanadas_Click(object sender, EventArgs e)
@@ -173,7 +179,7 @@ namespace WindowsFormsApplication1
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-
+            
         }
 
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
@@ -201,6 +207,31 @@ namespace WindowsFormsApplication1
             MessageBox.Show("Los amigos de " + Username.Text + " son " + message);
         }
 
+        private void toolStripTextBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void jugarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Enviar_Click(object sender, EventArgs e)
+        {
+            string message = "8/" + Username.Text + "/" + Invitaciones.Text;
+            byte[] msg = System.Text.Encoding.ASCII.GetBytes(message);
+            servidor.Send(msg);
+        }
+
+        private void enviarchat_Click(object sender, EventArgs e)
+        {
+            string mensaje = "12/" + Username.Text + "/" + mensajechat.Text;
+            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+            servidor.Send(msg);
+        }
+
+        
 
 
     }

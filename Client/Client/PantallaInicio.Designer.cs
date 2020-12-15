@@ -32,8 +32,6 @@
             this.Password = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.CrearCuenta = new System.Windows.Forms.Button();
-            this.IniciarSesion = new System.Windows.Forms.Button();
             this.PorcentajeGanadas = new System.Windows.Forms.Button();
             this.PartidasGanadas = new System.Windows.Forms.Button();
             this.PartidasJugadas = new System.Windows.Forms.Button();
@@ -47,12 +45,20 @@
             this.eliminarAmigoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.chatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.jugarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
+            this.Invitaciones = new System.Windows.Forms.ToolStripTextBox();
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Conectar = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.Enviar = new System.Windows.Forms.Button();
+            this.fondo = new System.Windows.Forms.PictureBox();
+            this.mensajechat = new System.Windows.Forms.TextBox();
+            this.enviarchat = new System.Windows.Forms.Button();
+            this.chat = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.menu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.fondo)).BeginInit();
             this.SuspendLayout();
             // 
             // Username
@@ -93,34 +99,6 @@
             this.label2.Size = new System.Drawing.Size(117, 21);
             this.label2.TabIndex = 3;
             this.label2.Text = "CONTRASEÑA";
-            // 
-            // CrearCuenta
-            // 
-            this.CrearCuenta.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.CrearCuenta.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.CrearCuenta.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CrearCuenta.ForeColor = System.Drawing.Color.PaleVioletRed;
-            this.CrearCuenta.Location = new System.Drawing.Point(178, 122);
-            this.CrearCuenta.Name = "CrearCuenta";
-            this.CrearCuenta.Size = new System.Drawing.Size(67, 47);
-            this.CrearCuenta.TabIndex = 4;
-            this.CrearCuenta.Text = "CREAR CUENTA";
-            this.CrearCuenta.UseVisualStyleBackColor = false;
-            this.CrearCuenta.Click += new System.EventHandler(this.CrearCuenta_Click);
-            // 
-            // IniciarSesion
-            // 
-            this.IniciarSesion.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.IniciarSesion.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.IniciarSesion.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.IniciarSesion.ForeColor = System.Drawing.Color.PaleVioletRed;
-            this.IniciarSesion.Location = new System.Drawing.Point(72, 122);
-            this.IniciarSesion.Name = "IniciarSesion";
-            this.IniciarSesion.Size = new System.Drawing.Size(67, 47);
-            this.IniciarSesion.TabIndex = 5;
-            this.IniciarSesion.Text = "INICIAR SESIÓN";
-            this.IniciarSesion.UseVisualStyleBackColor = false;
-            this.IniciarSesion.Click += new System.EventHandler(this.IniciarSesion_Click);
             // 
             // PorcentajeGanadas
             // 
@@ -172,10 +150,10 @@
             this.chatToolStripMenuItem,
             this.jugarToolStripMenuItem,
             this.salirToolStripMenuItem});
-            this.menu.Location = new System.Drawing.Point(476, 0);
+            this.menu.Location = new System.Drawing.Point(808, 0);
             this.menu.Name = "menu";
             this.menu.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.menu.Size = new System.Drawing.Size(81, 307);
+            this.menu.Size = new System.Drawing.Size(124, 307);
             this.menu.TabIndex = 12;
             this.menu.Text = "menuStrip1";
             // 
@@ -184,13 +162,13 @@
             this.perfilToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.historialToolStripMenuItem});
             this.perfilToolStripMenuItem.Name = "perfilToolStripMenuItem";
-            this.perfilToolStripMenuItem.Size = new System.Drawing.Size(68, 25);
+            this.perfilToolStripMenuItem.Size = new System.Drawing.Size(111, 25);
             this.perfilToolStripMenuItem.Text = "Perfil";
             // 
             // historialToolStripMenuItem
             // 
             this.historialToolStripMenuItem.Name = "historialToolStripMenuItem";
-            this.historialToolStripMenuItem.Size = new System.Drawing.Size(138, 26);
+            this.historialToolStripMenuItem.Size = new System.Drawing.Size(152, 26);
             this.historialToolStripMenuItem.Text = "Historial";
             // 
             // amigosToolStripMenuItem
@@ -200,7 +178,7 @@
             this.verAmigosToolStripMenuItem,
             this.eliminarAmigoToolStripMenuItem});
             this.amigosToolStripMenuItem.Name = "amigosToolStripMenuItem";
-            this.amigosToolStripMenuItem.Size = new System.Drawing.Size(68, 25);
+            this.amigosToolStripMenuItem.Size = new System.Drawing.Size(111, 25);
             this.amigosToolStripMenuItem.Text = "Amigos";
             // 
             // añadirAmigoToolStripMenuItem
@@ -225,30 +203,47 @@
             // chatToolStripMenuItem
             // 
             this.chatToolStripMenuItem.Name = "chatToolStripMenuItem";
-            this.chatToolStripMenuItem.Size = new System.Drawing.Size(68, 25);
+            this.chatToolStripMenuItem.Size = new System.Drawing.Size(111, 25);
             this.chatToolStripMenuItem.Text = "Chat";
             // 
             // jugarToolStripMenuItem
             // 
+            this.jugarToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripTextBox1,
+            this.Invitaciones});
             this.jugarToolStripMenuItem.Name = "jugarToolStripMenuItem";
-            this.jugarToolStripMenuItem.Size = new System.Drawing.Size(68, 25);
-            this.jugarToolStripMenuItem.Text = "Jugar";
+            this.jugarToolStripMenuItem.Size = new System.Drawing.Size(111, 25);
+            this.jugarToolStripMenuItem.Text = "Invitar a jugar";
+            this.jugarToolStripMenuItem.Click += new System.EventHandler(this.jugarToolStripMenuItem_Click);
+            // 
+            // toolStripTextBox1
+            // 
+            this.toolStripTextBox1.Name = "toolStripTextBox1";
+            this.toolStripTextBox1.Size = new System.Drawing.Size(100, 23);
+            this.toolStripTextBox1.Text = "Escribe separado porcomas a quien quieres invitar a jugar";
+            // 
+            // Invitaciones
+            // 
+            this.Invitaciones.Name = "Invitaciones";
+            this.Invitaciones.Size = new System.Drawing.Size(100, 23);
+            this.Invitaciones.Click += new System.EventHandler(this.toolStripTextBox1_Click);
             // 
             // salirToolStripMenuItem
             // 
             this.salirToolStripMenuItem.Name = "salirToolStripMenuItem";
-            this.salirToolStripMenuItem.Size = new System.Drawing.Size(68, 25);
+            this.salirToolStripMenuItem.Size = new System.Drawing.Size(111, 25);
             this.salirToolStripMenuItem.Text = "Salir";
             this.salirToolStripMenuItem.Click += new System.EventHandler(this.salirToolStripMenuItem_Click);
             // 
             // Conectar
             // 
-            this.Conectar.Location = new System.Drawing.Point(344, 216);
+            this.Conectar.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.Conectar.Location = new System.Drawing.Point(50, 137);
             this.Conectar.Name = "Conectar";
-            this.Conectar.Size = new System.Drawing.Size(75, 23);
+            this.Conectar.Size = new System.Drawing.Size(217, 23);
             this.Conectar.TabIndex = 13;
             this.Conectar.Text = "Conectar";
-            this.Conectar.UseVisualStyleBackColor = true;
+            this.Conectar.UseVisualStyleBackColor = false;
             this.Conectar.Click += new System.EventHandler(this.Conectar_Click);
             // 
             // dataGridView1
@@ -259,11 +254,61 @@
             this.dataGridView1.Size = new System.Drawing.Size(143, 193);
             this.dataGridView1.TabIndex = 14;
             // 
+            // Enviar
+            // 
+            this.Enviar.Location = new System.Drawing.Point(161, 224);
+            this.Enviar.Name = "Enviar";
+            this.Enviar.Size = new System.Drawing.Size(139, 24);
+            this.Enviar.TabIndex = 15;
+            this.Enviar.Text = "Enviar invitacion";
+            this.Enviar.UseVisualStyleBackColor = true;
+            this.Enviar.Click += new System.EventHandler(this.Enviar_Click);
+            // 
+            // fondo
+            // 
+            this.fondo.BackColor = System.Drawing.Color.HotPink;
+            this.fondo.Location = new System.Drawing.Point(466, 12);
+            this.fondo.Name = "fondo";
+            this.fondo.Size = new System.Drawing.Size(323, 193);
+            this.fondo.TabIndex = 20;
+            this.fondo.TabStop = false;
+            // 
+            // mensajechat
+            // 
+            this.mensajechat.Location = new System.Drawing.Point(478, 167);
+            this.mensajechat.Name = "mensajechat";
+            this.mensajechat.Size = new System.Drawing.Size(267, 20);
+            this.mensajechat.TabIndex = 24;
+            // 
+            // enviarchat
+            // 
+            this.enviarchat.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.enviarchat.Location = new System.Drawing.Point(751, 166);
+            this.enviarchat.Name = "enviarchat";
+            this.enviarchat.Size = new System.Drawing.Size(28, 23);
+            this.enviarchat.TabIndex = 25;
+            this.enviarchat.Text = "E";
+            this.enviarchat.UseVisualStyleBackColor = false;
+            this.enviarchat.Click += new System.EventHandler(this.enviarchat_Click);
+            // 
+            // chat
+            // 
+            this.chat.Location = new System.Drawing.Point(478, 23);
+            this.chat.Multiline = true;
+            this.chat.Name = "chat";
+            this.chat.Size = new System.Drawing.Size(301, 137);
+            this.chat.TabIndex = 26;
+            // 
             // PantallaInicio
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(557, 307);
+            this.ClientSize = new System.Drawing.Size(932, 307);
+            this.Controls.Add(this.chat);
+            this.Controls.Add(this.enviarchat);
+            this.Controls.Add(this.mensajechat);
+            this.Controls.Add(this.fondo);
+            this.Controls.Add(this.Enviar);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.Conectar);
             this.Controls.Add(this.label2);
@@ -271,8 +316,6 @@
             this.Controls.Add(this.PartidasJugadas);
             this.Controls.Add(this.PartidasGanadas);
             this.Controls.Add(this.PorcentajeGanadas);
-            this.Controls.Add(this.IniciarSesion);
-            this.Controls.Add(this.CrearCuenta);
             this.Controls.Add(this.Password);
             this.Controls.Add(this.Username);
             this.Controls.Add(this.pictureBox1);
@@ -285,6 +328,7 @@
             this.menu.ResumeLayout(false);
             this.menu.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.fondo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -296,8 +340,6 @@
         private System.Windows.Forms.TextBox Password;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button CrearCuenta;
-        private System.Windows.Forms.Button IniciarSesion;
         private System.Windows.Forms.Button PorcentajeGanadas;
         private System.Windows.Forms.Button PartidasGanadas;
         private System.Windows.Forms.Button PartidasJugadas;
@@ -314,6 +356,13 @@
         private System.Windows.Forms.ToolStripMenuItem verAmigosToolStripMenuItem;
         private System.Windows.Forms.Button Conectar;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.ToolStripTextBox Invitaciones;
+        private System.Windows.Forms.Button Enviar;
+        private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
+        private System.Windows.Forms.PictureBox fondo;
+        private System.Windows.Forms.TextBox mensajechat;
+        private System.Windows.Forms.Button enviarchat;
+        private System.Windows.Forms.TextBox chat;
     }
 }
 

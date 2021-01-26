@@ -46,16 +46,40 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EscogerPersonaje.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EscogerPersonaje.Designer.cs">
+      <DependentUpon>EscogerPersonaje.cs</DependentUpon>
+    </Compile>
     <Compile Include="PantallaInicio.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="PantallaInicio.Designer.cs">
       <DependentUpon>PantallaInicio.cs</DependentUpon>
     </Compile>
+    <Compile Include="Partida.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Partida.Designer.cs">
+      <DependentUpon>Partida.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Questionario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Questionario.Designer.cs">
+      <DependentUpon>Questionario.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="EscogerPersonaje.resx">
+      <DependentUpon>EscogerPersonaje.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="PantallaInicio.resx">
       <DependentUpon>PantallaInicio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Partida.resx">
+      <DependentUpon>Partida.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -65,7 +89,11 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Questionario.resx">
+      <DependentUpon>Questionario.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -75,6 +103,222 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\3.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\4.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\5.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\6.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\candelabro.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clue___colonel_mustrad___fan_art_by_virtualbarata_d5np43m.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clue___miss_scarlett___fan_art_by_virtualbarata_d5nh972.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clue___mr__green___fan_art_by_virtualbarata_d5oa5i0.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clue___mrs__peacock___fan_art_by_virtualbarata_d5oa5fu.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clue___mrs__white___fan_art_by_virtualbarata_d5nu3du.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clue___professor_plum___fan_art_by_virtualbarata_d5o2sfm.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cocina.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\comedor.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Conservatorio.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cuchillo.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\estudio.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ficha azul.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ficha lila.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ficha marrón.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ficha verde.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\libreria.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\recibidor.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\revolver.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sala de billar.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sala de música.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\salón.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sarjento.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\soga.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TABLERO2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TABLERO21.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TABLERO22.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TABLERO23.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TABLERO24.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tuberia.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\11.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\21.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\31.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\41.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\51.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\61.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\candelabro1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clue___colonel_mustrad___fan_art_by_virtualbarata_d5np43m1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clue___miss_scarlett___fan_art_by_virtualbarata_d5nh9721.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clue___mr__green___fan_art_by_virtualbarata_d5oa5i01.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clue___mrs__peacock___fan_art_by_virtualbarata_d5oa5fu1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clue___mrs__white___fan_art_by_virtualbarata_d5nu3du1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clue___professor_plum___fan_art_by_virtualbarata_d5o2sfm1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cocina1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\comedor1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Conservatorio1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cuchillo1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\estudio1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ficha azul1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ficha lila1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ficha marrón1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ficha verde1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\libreria1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\recibidor1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\revolver1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sala de billar1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sala de música1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\salón1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sarjento1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\soga1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TABLERO25.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TABLERO211.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TABLERO221.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TABLERO231.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TABLERO241.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tuberia1.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

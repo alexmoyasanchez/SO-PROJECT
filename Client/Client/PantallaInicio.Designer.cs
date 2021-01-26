@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.Username = new System.Windows.Forms.TextBox();
             this.Password = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -37,28 +38,29 @@
             this.PartidasJugadas = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.menu = new System.Windows.Forms.MenuStrip();
-            this.perfilToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.historialToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.amigosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.añadirAmigoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.verAmigosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.eliminarAmigoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.chatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.jugarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
-            this.Invitaciones = new System.Windows.Forms.ToolStripTextBox();
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Conectar = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.Enviar = new System.Windows.Forms.Button();
             this.fondo = new System.Windows.Forms.PictureBox();
             this.mensajechat = new System.Windows.Forms.TextBox();
             this.enviarchat = new System.Windows.Forms.Button();
             this.chat = new System.Windows.Forms.TextBox();
+            this.invitarButton = new System.Windows.Forms.Button();
+            this.empezar = new System.Windows.Forms.Button();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.textotitulo = new System.Windows.Forms.Label();
+            this.j1 = new System.Windows.Forms.CheckBox();
+            this.j2 = new System.Windows.Forms.CheckBox();
+            this.j3 = new System.Windows.Forms.CheckBox();
+            this.j4 = new System.Windows.Forms.CheckBox();
+            this.j5 = new System.Windows.Forms.CheckBox();
+            this.j6 = new System.Windows.Forms.CheckBox();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.menu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fondo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // Username
@@ -67,7 +69,6 @@
             this.Username.Name = "Username";
             this.Username.Size = new System.Drawing.Size(100, 20);
             this.Username.TabIndex = 0;
-            this.Username.TextChanged += new System.EventHandler(this.Username_TextChanged);
             // 
             // Password
             // 
@@ -145,93 +146,18 @@
             this.menu.Dock = System.Windows.Forms.DockStyle.Right;
             this.menu.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.perfilToolStripMenuItem,
-            this.amigosToolStripMenuItem,
-            this.chatToolStripMenuItem,
-            this.jugarToolStripMenuItem,
             this.salirToolStripMenuItem});
-            this.menu.Location = new System.Drawing.Point(808, 0);
+            this.menu.Location = new System.Drawing.Point(873, 0);
             this.menu.Name = "menu";
             this.menu.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.menu.Size = new System.Drawing.Size(124, 307);
+            this.menu.Size = new System.Drawing.Size(59, 356);
             this.menu.TabIndex = 12;
             this.menu.Text = "menuStrip1";
-            // 
-            // perfilToolStripMenuItem
-            // 
-            this.perfilToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.historialToolStripMenuItem});
-            this.perfilToolStripMenuItem.Name = "perfilToolStripMenuItem";
-            this.perfilToolStripMenuItem.Size = new System.Drawing.Size(111, 25);
-            this.perfilToolStripMenuItem.Text = "Perfil";
-            // 
-            // historialToolStripMenuItem
-            // 
-            this.historialToolStripMenuItem.Name = "historialToolStripMenuItem";
-            this.historialToolStripMenuItem.Size = new System.Drawing.Size(152, 26);
-            this.historialToolStripMenuItem.Text = "Historial";
-            // 
-            // amigosToolStripMenuItem
-            // 
-            this.amigosToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.añadirAmigoToolStripMenuItem,
-            this.verAmigosToolStripMenuItem,
-            this.eliminarAmigoToolStripMenuItem});
-            this.amigosToolStripMenuItem.Name = "amigosToolStripMenuItem";
-            this.amigosToolStripMenuItem.Size = new System.Drawing.Size(111, 25);
-            this.amigosToolStripMenuItem.Text = "Amigos";
-            // 
-            // añadirAmigoToolStripMenuItem
-            // 
-            this.añadirAmigoToolStripMenuItem.Name = "añadirAmigoToolStripMenuItem";
-            this.añadirAmigoToolStripMenuItem.Size = new System.Drawing.Size(185, 26);
-            this.añadirAmigoToolStripMenuItem.Text = "Añadir amigo";
-            // 
-            // verAmigosToolStripMenuItem
-            // 
-            this.verAmigosToolStripMenuItem.Name = "verAmigosToolStripMenuItem";
-            this.verAmigosToolStripMenuItem.Size = new System.Drawing.Size(185, 26);
-            this.verAmigosToolStripMenuItem.Text = "Ver amigos";
-            this.verAmigosToolStripMenuItem.Click += new System.EventHandler(this.verAmigosToolStripMenuItem_Click);
-            // 
-            // eliminarAmigoToolStripMenuItem
-            // 
-            this.eliminarAmigoToolStripMenuItem.Name = "eliminarAmigoToolStripMenuItem";
-            this.eliminarAmigoToolStripMenuItem.Size = new System.Drawing.Size(185, 26);
-            this.eliminarAmigoToolStripMenuItem.Text = "Eliminar amigo";
-            // 
-            // chatToolStripMenuItem
-            // 
-            this.chatToolStripMenuItem.Name = "chatToolStripMenuItem";
-            this.chatToolStripMenuItem.Size = new System.Drawing.Size(111, 25);
-            this.chatToolStripMenuItem.Text = "Chat";
-            // 
-            // jugarToolStripMenuItem
-            // 
-            this.jugarToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripTextBox1,
-            this.Invitaciones});
-            this.jugarToolStripMenuItem.Name = "jugarToolStripMenuItem";
-            this.jugarToolStripMenuItem.Size = new System.Drawing.Size(111, 25);
-            this.jugarToolStripMenuItem.Text = "Invitar a jugar";
-            this.jugarToolStripMenuItem.Click += new System.EventHandler(this.jugarToolStripMenuItem_Click);
-            // 
-            // toolStripTextBox1
-            // 
-            this.toolStripTextBox1.Name = "toolStripTextBox1";
-            this.toolStripTextBox1.Size = new System.Drawing.Size(100, 23);
-            this.toolStripTextBox1.Text = "Escribe separado porcomas a quien quieres invitar a jugar";
-            // 
-            // Invitaciones
-            // 
-            this.Invitaciones.Name = "Invitaciones";
-            this.Invitaciones.Size = new System.Drawing.Size(100, 23);
-            this.Invitaciones.Click += new System.EventHandler(this.toolStripTextBox1_Click);
             // 
             // salirToolStripMenuItem
             // 
             this.salirToolStripMenuItem.Name = "salirToolStripMenuItem";
-            this.salirToolStripMenuItem.Size = new System.Drawing.Size(111, 25);
+            this.salirToolStripMenuItem.Size = new System.Drawing.Size(68, 25);
             this.salirToolStripMenuItem.Text = "Salir";
             this.salirToolStripMenuItem.Click += new System.EventHandler(this.salirToolStripMenuItem_Click);
             // 
@@ -251,18 +177,10 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(308, 12);
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dataGridView1.Size = new System.Drawing.Size(143, 193);
             this.dataGridView1.TabIndex = 14;
-            // 
-            // Enviar
-            // 
-            this.Enviar.Location = new System.Drawing.Point(161, 224);
-            this.Enviar.Name = "Enviar";
-            this.Enviar.Size = new System.Drawing.Size(139, 24);
-            this.Enviar.TabIndex = 15;
-            this.Enviar.Text = "Enviar invitacion";
-            this.Enviar.UseVisualStyleBackColor = true;
-            this.Enviar.Click += new System.EventHandler(this.Enviar_Click);
+            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             // 
             // fondo
             // 
@@ -299,16 +217,128 @@
             this.chat.Size = new System.Drawing.Size(301, 137);
             this.chat.TabIndex = 26;
             // 
+            // invitarButton
+            // 
+            this.invitarButton.Location = new System.Drawing.Point(308, 211);
+            this.invitarButton.Name = "invitarButton";
+            this.invitarButton.Size = new System.Drawing.Size(143, 24);
+            this.invitarButton.TabIndex = 27;
+            this.invitarButton.Text = "Invitar";
+            this.invitarButton.UseVisualStyleBackColor = true;
+            this.invitarButton.Click += new System.EventHandler(this.invitarButton_Click);
+            // 
+            // empezar
+            // 
+            this.empezar.Location = new System.Drawing.Point(556, 323);
+            this.empezar.Name = "empezar";
+            this.empezar.Size = new System.Drawing.Size(131, 21);
+            this.empezar.TabIndex = 29;
+            this.empezar.Text = "EMPEZAR PARTIDA";
+            this.empezar.UseVisualStyleBackColor = true;
+            this.empezar.Click += new System.EventHandler(this.empezar_Click);
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.BackColor = System.Drawing.Color.HotPink;
+            this.pictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pictureBox2.Location = new System.Drawing.Point(466, 211);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(323, 171);
+            this.pictureBox2.TabIndex = 30;
+            this.pictureBox2.TabStop = false;
+            // 
+            // textotitulo
+            // 
+            this.textotitulo.AutoSize = true;
+            this.textotitulo.Location = new System.Drawing.Point(553, 224);
+            this.textotitulo.Name = "textotitulo";
+            this.textotitulo.Size = new System.Drawing.Size(134, 13);
+            this.textotitulo.TabIndex = 31;
+            this.textotitulo.Text = "JUGADORES INVITADOS";
+            // 
+            // j1
+            // 
+            this.j1.AutoSize = true;
+            this.j1.BackColor = System.Drawing.Color.Transparent;
+            this.j1.Location = new System.Drawing.Point(514, 247);
+            this.j1.Name = "j1";
+            this.j1.Size = new System.Drawing.Size(93, 17);
+            this.j1.TabIndex = 38;
+            this.j1.Text = "Jugador vacio";
+            this.j1.UseVisualStyleBackColor = false;
+            // 
+            // j2
+            // 
+            this.j2.AutoSize = true;
+            this.j2.Location = new System.Drawing.Point(514, 270);
+            this.j2.Name = "j2";
+            this.j2.Size = new System.Drawing.Size(93, 17);
+            this.j2.TabIndex = 39;
+            this.j2.Text = "Jugador vacio";
+            this.j2.UseVisualStyleBackColor = true;
+            // 
+            // j3
+            // 
+            this.j3.AutoSize = true;
+            this.j3.Location = new System.Drawing.Point(514, 293);
+            this.j3.Name = "j3";
+            this.j3.Size = new System.Drawing.Size(93, 17);
+            this.j3.TabIndex = 40;
+            this.j3.Text = "Jugador vacio";
+            this.j3.UseVisualStyleBackColor = true;
+            // 
+            // j4
+            // 
+            this.j4.AutoSize = true;
+            this.j4.Location = new System.Drawing.Point(634, 247);
+            this.j4.Name = "j4";
+            this.j4.Size = new System.Drawing.Size(93, 17);
+            this.j4.TabIndex = 41;
+            this.j4.Text = "Jugador vacio";
+            this.j4.UseVisualStyleBackColor = true;
+            // 
+            // j5
+            // 
+            this.j5.AutoSize = true;
+            this.j5.Location = new System.Drawing.Point(634, 270);
+            this.j5.Name = "j5";
+            this.j5.Size = new System.Drawing.Size(93, 17);
+            this.j5.TabIndex = 42;
+            this.j5.Text = "Jugador vacio";
+            this.j5.UseVisualStyleBackColor = true;
+            // 
+            // j6
+            // 
+            this.j6.AutoSize = true;
+            this.j6.Location = new System.Drawing.Point(634, 293);
+            this.j6.Name = "j6";
+            this.j6.Size = new System.Drawing.Size(93, 17);
+            this.j6.TabIndex = 43;
+            this.j6.Text = "Jugador vacio";
+            this.j6.UseVisualStyleBackColor = true;
+            // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // PantallaInicio
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(932, 307);
+            this.ClientSize = new System.Drawing.Size(932, 356);
+            this.Controls.Add(this.j6);
+            this.Controls.Add(this.j5);
+            this.Controls.Add(this.j4);
+            this.Controls.Add(this.j3);
+            this.Controls.Add(this.j2);
+            this.Controls.Add(this.j1);
+            this.Controls.Add(this.textotitulo);
+            this.Controls.Add(this.empezar);
+            this.Controls.Add(this.invitarButton);
             this.Controls.Add(this.chat);
             this.Controls.Add(this.enviarchat);
             this.Controls.Add(this.mensajechat);
             this.Controls.Add(this.fondo);
-            this.Controls.Add(this.Enviar);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.Conectar);
             this.Controls.Add(this.label2);
@@ -320,6 +350,7 @@
             this.Controls.Add(this.Username);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.menu);
+            this.Controls.Add(this.pictureBox2);
             this.MainMenuStrip = this.menu;
             this.Name = "PantallaInicio";
             this.Text = "Form1";
@@ -329,6 +360,7 @@
             this.menu.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.fondo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -345,24 +377,24 @@
         private System.Windows.Forms.Button PartidasJugadas;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.MenuStrip menu;
-        private System.Windows.Forms.ToolStripMenuItem perfilToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem historialToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem amigosToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem añadirAmigoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem eliminarAmigoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem chatToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem jugarToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem salirToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem verAmigosToolStripMenuItem;
         private System.Windows.Forms.Button Conectar;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.ToolStripTextBox Invitaciones;
-        private System.Windows.Forms.Button Enviar;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
         private System.Windows.Forms.PictureBox fondo;
         private System.Windows.Forms.TextBox mensajechat;
         private System.Windows.Forms.Button enviarchat;
         private System.Windows.Forms.TextBox chat;
+        private System.Windows.Forms.Button invitarButton;
+        private System.Windows.Forms.Button empezar;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.Label textotitulo;
+        private System.Windows.Forms.CheckBox j1;
+        private System.Windows.Forms.CheckBox j2;
+        private System.Windows.Forms.CheckBox j3;
+        private System.Windows.Forms.CheckBox j4;
+        private System.Windows.Forms.CheckBox j5;
+        private System.Windows.Forms.CheckBox j6;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 

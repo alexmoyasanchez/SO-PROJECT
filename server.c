@@ -8,49 +8,69 @@
 #include <stdio.h>
 #include <mysql.h>
 #include <pthread.h>
-#include <my_global.h>
+#include <stdbool.h>
 
 typedef struct {
+	char ficha[20];
+	char cartas[50];
 	char nombre[20];
 	int socket;
 }Tconectado;
 
 typedef struct{
 	int num;
+	char nombrepartida[20];
 	Tconectado conectados[100];
 }TListaConectados;
 
-TListaConectados lista;
-TListaConectados jugadorespartida;
-pthread_mutex_t mutex=PTHREAD_MUTEX_INITIALIZER;
+typedef struct{
+	int num;
+	TListaConectados partidas[100];
+}TListaPartidas;
 
-// Enviar invitación a los jugadores de la partida
-void CrearPartida(TListaConectados*lista,char respuesta[512],char jugador1[100],char jugador2[100],char jugador3[100],char jugador4[100],char jugador5[100],char jugador6[100])
-{
-	int socket1=EncontrarSocket(jugador1,&lista);
-	int socket2=EncontrarSocket(jugador2,&lista);
-	int socket3=EncontrarSocket(jugador3,&lista);
-	int socket4=EncontrarSocket(jugador4,&lista);
-	int socket5=EncontrarSocket(jugador5,&lista);
-	int socket6=EncontrarSocket(jugador6,&lista);
-	sprintf(respuesta,"4/%s te ha invitado a jugar", jugador1);
-	UsuarioConectado(jugador1,socket1,&jugadorespartida);
-	UsuarioConectado(jugador2,socket2,&jugadorespartida);
-	UsuarioConectado(jugador3,socket3,&jugadorespartida);
-	UsuarioConectado(jugador4,socket4,&jugadorespartida);
-	UsuarioConectado(jugador5,socket5,&jugadorespartida);
-	UsuarioConectado(jugador6,socket6,&jugadorespartida);
-	write(socket1,respuesta,strlen(respuesta));
-	write(socket2,respuesta,strlen(respuesta));
-	write(socket3,respuesta,strlen(respuesta));
-	write(socket4,respuesta,strlen(respuesta));
-	write(socket5,respuesta,strlen(respuesta));
-	write(socket6,respuesta,strlen(respuesta));
-	
-}
+TListaConectados lista;
+TListaConectados jugadoresInvitados;
+TListaConectados jugadorespartida;
+TListaPartidas listapartidas;
+pthread_mutex_t mutex=PTHREAD_MUTEX_INITIALIZER;
+int invitadosGrupo = 0;
+bool empiezaLaPartida = false;
+char fichas[50];
+int turnogeneral;
+int cartaasesino;
+int cartaarma;
+int cartahab;
+
+
 
 // Añadir un usuario a la lista de conectados
 int UsuarioConectado(char nombre[20],int socket,TListaConectados*lista)
+{
+	int i=0;
+	int encontrado=0;
+	while((i<(lista->num)&&(encontrado==0)))
+	{
+		if(strcmp(lista->conectados[i].nombre,nombre)==0)
+			encontrado=1;
+		else
+			i=i+1;
+	}
+	if(encontrado==0)
+	{
+		if((lista->num)>=100)
+			return -1;
+		else
+		{
+			strcpy(lista->conectados[lista->num].nombre,nombre);
+			lista->conectados[lista->num].socket=socket;
+			lista->num=(lista->num)+1;
+			printf("Added user with socket %d\n", socket);
+			return 0;
+		}
+	}	   
+}
+// Añadir una partida nueva a la lista de partidas
+int nuevaPartida(char nombre[20],int socket,TListaConectados*lista)
 {
 	int i=0;
 	int encontrado=0;
@@ -146,6 +166,7 @@ void *AtenderCliente (void *socket)
 	int ret;
 	int err;
 	char misConectados [300];
+	int turno = 0;
 	
 	printf("Valor del socket iniciado%d \n",sock_conn);
 	int i=0;
@@ -188,13 +209,13 @@ void *AtenderCliente (void *socket)
 		{
 			p=strtok(NULL,"/");
 			char friends[512];
-			char consulta[80];
+			char consulta[200];
 			int err;
 			strcpy (consulta,"SELECT FRIENDS FROM PLAYER WHERE PLAYER.ID = '"); 
 			strcat (consulta, p);
 			strcat (consulta,"'");
 			printf("%s\n",consulta);
- 
+			
 			err = mysql_query (conn, consulta); 
 			printf("Error = %d\n", err);
 			if (err!=0) 
@@ -203,7 +224,7 @@ void *AtenderCliente (void *socket)
 						mysql_errno(conn), mysql_error(conn));
 				exit (1);
 			}
-
+			
 			resultado = mysql_store_result (conn); 
 			row = mysql_fetch_row (resultado);
 			if (row == NULL)
@@ -223,7 +244,7 @@ void *AtenderCliente (void *socket)
 			int ganadas = 0;
 			int jugadas = 0;
 			float porcentaje = 0;
-			char consulta[80];
+			char consulta[200];
 			int err;
 			
 			strcpy(player,p);
@@ -289,7 +310,7 @@ void *AtenderCliente (void *socket)
 			p=strtok(NULL,"/");
 			char player[60];
 			int ganadas = 0;
-			char consulta[80];
+			char consulta[200];
 			int err;
 			
 			printf("%s\n", p);
@@ -336,7 +357,7 @@ void *AtenderCliente (void *socket)
 			strcpy (consulta,"SELECT PARTICIPATION.GAME FROM PARTICIPATION WHERE PARTICIPATION.PLAYER ='"); 
 			strcat (consulta, player);
 			strcat (consulta,"'");
-
+			
 			err=mysql_query (conn, consulta); 
 			if (err!=0) 
 			{
@@ -344,7 +365,7 @@ void *AtenderCliente (void *socket)
 						mysql_errno(conn), mysql_error(conn));
 				exit (1);
 			}
-
+			
 			resultado = mysql_store_result (conn); 
 			row = mysql_fetch_row (resultado);
 			if (row == NULL)
@@ -447,7 +468,7 @@ void *AtenderCliente (void *socket)
 				}
 				write (sock_conn,respuesta,strlen(respuesta));
 			}
-
+			
 		}
 		// Actualizar lista Conectados
 		else if (codigo == 7)
@@ -465,7 +486,9 @@ void *AtenderCliente (void *socket)
 				r=r+1;
 			} 
 		}
-		
+		//Invitar Amigos
+		//Recibe 8/jugador1/jugador2/jugadorN
+		//Rellena la lista de jugadores invitados y mandamos invitaciones a los jugadores que hemos escogido.
 		else if (codigo==8)
 		{
 			char consulta[100];
@@ -473,76 +496,386 @@ void *AtenderCliente (void *socket)
 			p=strtok(NULL, "/");
 			strcpy(player, p);
 			p=strtok(NULL, "/");
-			int j=1;
-			while (p != NULL)
+			while(p != NULL) 
 			{
-				sprintf(consulta, "4/%s/%s", player, p);
-				printf("Consulta: %s\n", consulta);
-				write(EncontrarSocket(p, &lista), consulta, strlen(consulta));
+				UsuarioConectado(p, EncontrarSocket(p,&lista), &jugadoresInvitados);
 				p=strtok(NULL, "/");
-				j++;
 			}
-				
+			int j=0;
+			while(j<jugadoresInvitados.num)
+			{
+				sprintf(consulta, "4/%s/%s te ha invitado a jugar ¿Aceptas?", player, player);
+				write(jugadoresInvitados.conectados[i].socket, consulta, strlen(consulta));
+				j=j+1;
+			}
+			UsuarioConectado(player, EncontrarSocket(player,&lista), &jugadorespartida);
 		}
-		
+		//Preparar el grupo de la partida
 		else if(codigo == 9)
 		{
 			char consulta[100];
 			char invitador[20];
 			char invitado[20];
+			char confirmacion[20];
 			p=strtok(NULL, "/");
 			strcpy(invitador, p);
 			p=strtok(NULL, "/");
 			strcpy(invitado, p);
-			sprintf(consulta, "5/%s, %s ha aceptado tu invitacion\n", invitador, invitado);
-			write(EncontrarSocket(invitador, &lista), consulta, strlen(consulta));
+			p=strtok(NULL, "/");
+			strcpy(confirmacion, p);
+			if((strcmp(confirmacion,"yes")==0))
+			{
+				UsuarioConectado(invitado, EncontrarSocket(invitado,&lista), &jugadorespartida);
+				sprintf(consulta,"5/");
+				int i=0;
+				while(i<jugadorespartida.num)
+				{
+					strcat(consulta,jugadorespartida.conectados[i].nombre);
+					strcat(consulta,"/");
+					i=i+1;
+				}
+				printf("Respuesta:%s",consulta);
+				int j=0;
+				while(j<jugadorespartida.num)
+				{
+					write(jugadorespartida.conectados[j].socket, consulta, strlen(consulta));
+					j=j+1;
+				}
+			}
+			else
+			{
+				sprintf(consulta, "6/%s", invitado);
+				write(EncontrarSocket(invitador,&lista), consulta, strlen(consulta));
+			}
+			
 		}
-		
 		else if(codigo == 10)
 		{
 			char consulta[100];
-			char invitador[20];
-			char invitado[20];
+			int turno;
+			char bloqueos[50];
 			p=strtok(NULL, "/");
-			strcpy(invitador, p);
+			turno=atoi(p);
 			p=strtok(NULL, "/");
-			strcpy(invitado, p);
-			sprintf(consulta, "6/%s, %s ha rechazado tu invitacion\n", invitador, invitado);
-			write(EncontrarSocket(invitador, &lista), consulta, strlen(consulta));
+			strcpy(bloqueos, p);
+			if(turno<jugadorespartida.num)
+			{
+				sprintf(consulta,"9/%d/%s/padding",turno,bloqueos);
+				write(jugadorespartida.conectados[turno].socket, consulta, strlen(consulta));
+			}
+			//Preparar las fichas y las cartas de cada jugador
+			else
+			{
+				turnogeneral=jugadorespartida.num;
+				strcpy(fichas,bloqueos);
+				printf("%s",fichas);
+				int cartas[21];
+				printf("Empieza la partida");
+				char consulta[100];
+				cartas[0] = rand()%(6+1);
+				cartas[1] = rand()%(12+7);
+				cartas[2] = rand()%(21+13);
+				cartaasesino=cartas[0];
+				cartaarma=cartas[1];
+				cartahab=cartas[2];
+				int j=0;
+				
+				for(int i=3;i<21;i++)
+				{
+					int num = rand()%(21+1);
+					if(i>0)
+					{  
+						for(int j=0; j < i; j++) 
+						{
+							if(num==cartas[j])
+							{
+								num = rand()%(21+1);
+								j=-1;                         
+							}
+						}
+					}
+					cartas[i]=num;
+				}
+				if(jugadorespartida.num == 2)
+				{
+					for (int j=3; j<12; j++)
+						{
+							char tmp[50];
+							sprintf(tmp,"%d",cartas[j]);
+							char separador[10];
+							sprintf(separador,",");
+							strcat(jugadorespartida.conectados[0].cartas,tmp);
+							strcat(jugadorespartida.conectados[0].cartas,separador);
+						}
+					for (int j=12; j<21; j++)
+						{
+							char tmp[50];
+							sprintf(tmp,"%d",cartas[j]);
+							char separador[10];
+							sprintf(separador,",");
+							strcat(jugadorespartida.conectados[1].cartas,tmp);
+							strcat(jugadorespartida.conectados[1].cartas,separador);
+						}
+				}
+				else if(jugadorespartida.num == 3)
+				{
+					for (int j=3; j<9; j++)
+						{
+						char tmp[50];
+						sprintf(tmp,"%d",cartas[j]);
+						char separador[10];
+						sprintf(separador,",");
+						strcat(jugadorespartida.conectados[0].cartas,tmp);
+						strcat(jugadorespartida.conectados[0].cartas,separador);
+						}
+					for (int j=9; j<15; j++)
+						{
+						char tmp[50];
+						sprintf(tmp,"%d",cartas[j]);
+						char separador[10];
+						sprintf(separador,",");
+						strcat(jugadorespartida.conectados[1].cartas,tmp);
+						strcat(jugadorespartida.conectados[1].cartas,separador);
+						}
+					for (int j=15; j<21; j++)
+						{
+						char tmp[50];
+						sprintf(tmp,"%d",cartas[j]);
+						char separador[10];
+						sprintf(separador,",");
+						strcat(jugadorespartida.conectados[2].cartas,tmp);
+						strcat(jugadorespartida.conectados[2].cartas,separador);
+						}
+					
+				}
+				else if(jugadorespartida.num == 4)
+				{
+						for (int j=3; j<7; j++)
+						{
+							
+							char tmp[50];
+							sprintf(tmp,"%d",cartas[j]);
+							char separador[10];
+							sprintf(separador,",");
+							strcat(jugadorespartida.conectados[0].cartas,tmp);
+							strcat(jugadorespartida.conectados[0].cartas,separador);
+						}
+						for (int j=7; j<11; j++)
+						{
+							
+							char tmp[50];
+							sprintf(tmp,"%d",cartas[j]);
+							char separador[10];
+							sprintf(separador,",");
+							strcat(jugadorespartida.conectados[1].cartas,tmp);
+							strcat(jugadorespartida.conectados[1].cartas,separador);
+						}
+						for (int j=11; j<16; j++)
+						{
+							
+							char tmp[50];
+							sprintf(tmp,"%d",cartas[j]);
+							char separador[10];
+							sprintf(separador,",");
+							strcat(jugadorespartida.conectados[2].cartas,tmp);
+							strcat(jugadorespartida.conectados[2].cartas,separador);
+						}
+						for (int j=16; j<21; j++)
+						{
+							
+							char tmp[50];
+							sprintf(tmp,"%d",cartas[j]);
+							char separador[10];
+							sprintf(separador,",");
+							strcat(jugadorespartida.conectados[3].cartas,tmp);
+							strcat(jugadorespartida.conectados[3].cartas,separador);
+						}
+				}	
+				else if(jugadorespartida.num == 5)
+				{
+						for (int j=3; j<6; j++)
+						{
+							char tmp[50];
+							sprintf(tmp,"%d",cartas[j]);
+							char separador[10];
+							sprintf(separador,",");
+							strcat(jugadorespartida.conectados[0].cartas,tmp);
+							strcat(jugadorespartida.conectados[0].cartas,separador);
+						}
+						for (int j=6; j<9; j++)
+						{
+							char tmp[50];
+							sprintf(tmp,"%d",cartas[j]);
+							char separador[10];
+							sprintf(separador,",");
+							strcat(jugadorespartida.conectados[1].cartas,tmp);
+							strcat(jugadorespartida.conectados[1].cartas,separador);
+						}
+						for (int j=9; j<13; j++)
+						{
+							char tmp[50];
+							sprintf(tmp,"%d",cartas[j]);
+							char separador[10];
+							sprintf(separador,",");
+							strcat(jugadorespartida.conectados[2].cartas,tmp);
+							strcat(jugadorespartida.conectados[2].cartas,separador);
+						}
+						for (int j=13; j<17; j++)
+						{
+							char tmp[50];
+							sprintf(tmp,"%d",cartas[j]);
+							char separador[10];
+							sprintf(separador,",");
+							strcat(jugadorespartida.conectados[3].cartas,tmp);
+							strcat(jugadorespartida.conectados[3].cartas,separador);
+						}
+						for (int j=17; j<21; j++)
+						{
+							char tmp[50];
+							sprintf(tmp,"%d",cartas[j]);
+							char separador[10];
+							sprintf(separador,",");
+							strcat(jugadorespartida.conectados[4].cartas,tmp);
+							strcat(jugadorespartida.conectados[4].cartas,separador);
+						}
+				}	
+				else
+				{
+						for (int j=3; j<6; j++)
+						{
+							char tmp[50];
+							sprintf(tmp,"%d",cartas[j]);
+							char separador[10];
+							sprintf(separador,",");
+							strcat(jugadorespartida.conectados[0].cartas,tmp);
+							strcat(jugadorespartida.conectados[0].cartas,separador);
+						}
+						for (int j=6; j<9; j++)
+						{
+							char tmp[50];
+							sprintf(tmp,"%d",cartas[j]);
+							char separador[10];
+							sprintf(separador,",");
+							strcat(jugadorespartida.conectados[1].cartas,tmp);
+							strcat(jugadorespartida.conectados[1].cartas,separador);
+						}
+						for (int j=9; j<12; j++)
+						{
+							char tmp[50];
+							sprintf(tmp,"%d",cartas[j]);
+							char separador[10];
+							sprintf(separador,",");
+							strcat(jugadorespartida.conectados[2].cartas,tmp);
+							strcat(jugadorespartida.conectados[2].cartas,separador);
+						}
+						for (int j=12; j<15; j++)
+						{
+							char tmp[50];
+							sprintf(tmp,"%d",cartas[j]);
+							char separador[10];
+							sprintf(separador,",");
+							strcat(jugadorespartida.conectados[3].cartas,tmp);
+							strcat(jugadorespartida.conectados[3].cartas,separador);
+						}
+						for (int j=15; j<18; j++)
+						{							
+							char tmp[50];
+							sprintf(tmp,"%d",cartas[j]);
+							char separador[10];
+							sprintf(separador,",");
+							strcat(jugadorespartida.conectados[4].cartas,tmp);
+							strcat(jugadorespartida.conectados[4].cartas,separador);
+						}
+						for (int j=18; j<21; j++)
+						{
+							char tmp[50];
+							sprintf(tmp,"%d",cartas[j]);
+							char separador[10];
+							sprintf(separador,",");
+							strcat(jugadorespartida.conectados[5].cartas,tmp);
+							strcat(jugadorespartida.conectados[5].cartas,separador);
+						}
+				}
+				char *q=strtok (fichas, ",");
+				strcpy(jugadorespartida.conectados[0].ficha,q);
+				printf("ficha0:%s\n", jugadorespartida.conectados[0].ficha);
+				for(int i = 1; i<jugadorespartida.num; i++)
+				{
+					q = strtok(NULL, ",");
+					strcpy(jugadorespartida.conectados[i].ficha,q);
+					printf("ficha:%s\n", jugadorespartida.conectados[i].ficha);
+				}
+				int l=0;
+				while(l<jugadorespartida.num)
+				{
+					sprintf(consulta, "8/%s/%s", jugadorespartida.conectados[l].ficha,jugadorespartida.conectados[l].cartas);
+					write(jugadorespartida.conectados[l].socket, consulta, strlen(consulta));
+					l=l+1;
+				}
+			}
+			
 		}
-		
-		// Iniciar partida
-		else if (codigo == 11)
-		{
-			char jugador1[20];
-			char jugador2[20];
-			char jugador3[20];
-			char jugador4[20];
-			char jugador5[20];
-			char jugador6[20];
-			p=strtok(NULL,",");
-			strcpy(jugador1,p);
-			printf("1\n");
-			p=strtok(NULL,",");
-			strcpy(jugador2,p);
-			printf("2\n");
-			p=strtok(NULL,",");
-			strcpy(jugador3,p);
-			printf("3\n");
-			p=strtok(NULL,",");
-			strcpy(jugador4,p);
-			printf("4\n");
-			p=strtok(NULL,",");
-			strcpy(jugador5,p);
-			printf("5\n");
-			p=strtok(NULL,",");
-			strcpy(jugador6,p);
-			printf("6\n");
-			CrearPartida(&lista,respuesta,jugador1,jugador2,jugador3,jugador4,jugador5,jugador6);
-			printf("Lista creada %s\n", respuesta);
-			write (sock_conn,respuesta,strlen(respuesta));
+		//Comparar respuesta de otro jugador
+		else if (codigo ==11)
+		{	
+			int r=0;
+			p=strtok(NULL,"/");
+			char asesino[20];
+			char arma[20];
+			char habitacion[20];
+			int preguntador=atoi(p);
+			p=strtok(NULL,"/");
+			int respondedor=atoi(p);
+			p=strtok(NULL,"/");
+			strcpy(asesino,p);
+			p=strtok(NULL,"/");
+			strcpy(arma,p);
+			p=strtok(NULL,"/");
+			strcpy(habitacion,p);
+			int asesinoencontrado=0;
+			int armaencontrada=0;
+			int habitacionencontrada=0;
+			while((r<(18/jugadorespartida.num))&&(asesinoencontrado==0))
+			{
+				char tmp[50];
+				sprintf(tmp,"%d",jugadorespartida.conectados[respondedor].cartas[r]);
+				if(strcmp(tmp,asesino)==0)
+					asesinoencontrado=1;
+				else
+				   r=r+1;
+			}
+			if(asesinoencontrado==1)
+				sprintf(asesino,"%d",jugadorespartida.conectados[respondedor].cartas[r]);
+			r=0;
+			while((r<(18/jugadorespartida.num))&&(armaencontrada==0))
+			{
+				char tmp[50];
+				sprintf(tmp,"%d",jugadorespartida.conectados[respondedor].cartas[r]);
+				if(strcmp(tmp,arma)==0)
+					armaencontrada=1;
+				else
+					r=r+1;
+			}
+			if(armaencontrada==1)
+				sprintf(arma,"%d",jugadorespartida.conectados[respondedor].cartas[r]);
+			r=0;
+			while((r<(18/jugadorespartida.num))&&(habitacionencontrada==0))
+			{
+				char tmp[50];
+				sprintf(tmp,"%d",jugadorespartida.conectados[respondedor].cartas[r]);
+				if(strcmp(tmp,habitacion)==0)
+					habitacionencontrada=1;
+				else
+					r=r+1;
+			}
+			if(habitacionencontrada==1)
+				sprintf(habitacion,"%d",jugadorespartida.conectados[respondedor].cartas[r]);
+			char consulta[500];
+			sprintf(consulta,"10/%s,%s,%s",asesino,arma,habitacion);
+			printf("%s",consulta);
+			write(jugadorespartida.conectados[preguntador].socket, consulta, strlen(consulta));
 		}
-		
+		// Chat 
 		else if (codigo == 12)
 		{
 			p=strtok(NULL,"/");
@@ -561,39 +894,109 @@ void *AtenderCliente (void *socket)
 				i=i+1;
 			}
 		}
+		else if(codigo==13)
+		{
+			char consulta[500];
+			p=strtok(NULL,"/");
+			int preguntador=atoi(p);
+			p=strtok(NULL,"/");
+			int respondedor=atoi(p);
+			p=strtok(NULL,"/");
+			char pregunta[50];
+			strcpy(pregunta,p);
+			sprintf(consulta,"10/%s/padding",pregunta);
+			write(jugadorespartida.conectados[respondedor].socket,consulta,strlen(consulta));
+		}
+		//Actualizar + cambiar turno
+		else if (codigo ==14)
+		{
+			char movimientos[100];
+			char consulta[500];
+			p=strtok(NULL,"/");
+			int turnoactual = atoi(p);
+			p=strtok(NULL,"/");
+			strcpy(movimientos,p);
+			turno = (turno + 1)%jugadorespartida.num;
+			//sprintf(consulta,"11/%d/%s",turnoactual,movimientos);
+			/*for(int i=0;i<jugadorespartida.num;i++)
+			{
+				printf("Hola hasta la 923");
+				write(jugadorespartida.conectados[i].socket, consulta, strlen(consulta));
+			}
+			if((turnoactual-1)==jugadorespartida.num)
+				  turnoactual=0;
+			else
+				turnoactual=turnoactual+1;*/
+
+			sprintf(consulta,"12/%d/%s",turno,movimientos);
+			printf("Consulta: %s\n Socket: %d\n", consulta, jugadorespartida.conectados[turno].socket);
+			write(jugadorespartida.conectados[0].socket, consulta, strlen(consulta));
+			printf("Consulta: %s\n Socket: %d\n", consulta, jugadorespartida.conectados[0].socket);
+			write(jugadorespartida.conectados[1].socket, consulta, strlen(consulta));
+			printf("Consulta: %s\n Socket: %d\n", consulta, jugadorespartida.conectados[1].socket);
+		}
+		else if(codigo==15)
+		{
+			int r=0;
+			p=strtok(NULL,"/");
+			int preguntador=atoi(p);
+			p=strtok(NULL,"/");
+			int respondedor=atoi(p);
+			p=strtok(NULL,"/");
+			int asesino=atoi(p);
+			p=strtok(NULL,"/");
+			int arma=atoi(p);
+			p=strtok(NULL,"/");
+			int habitacion=atoi(p);
+			if((asesino==cartaasesino)&&(arma==cartaarma)&&(habitacion==cartahab))
+			{
+				char consulta[500];
+				sprintf(consulta,"16/%d/ganador",preguntador);
+				while(r<jugadorespartida.num)
+				{
+					write(jugadorespartida.conectados[r].socket, consulta, strlen(consulta));
+					r=r+1;
+				}
+			}
+			else
+			{
+				char consulta[500];
+				sprintf(consulta,"16/%d/perdedor",preguntador);
+					write(jugadorespartida.conectados[preguntador].socket, consulta, strlen(consulta));
+			}												 
+		}
 	}
-		close(sock_conn);
+	
+	close(sock_conn);
 }
 int main(int argc, char *argv[])
 {	
-		int sock_conn, sock_listen;
-		struct sockaddr_in serv_adr;
-
-		if ((sock_listen = socket(AF_INET, SOCK_STREAM, 0)) < 0)
-			printf("Error creant socket\n");
-		memset(&serv_adr, 0, sizeof(serv_adr));
-		serv_adr.sin_family = AF_INET;
-		serv_adr.sin_addr.s_addr = htonl(INADDR_ANY); 
-		serv_adr.sin_port = htons(50011);
-		if (bind(sock_listen, (struct sockaddr *) &serv_adr, sizeof(serv_adr)) < 0)
-			printf("Error al bind\n");
-		if (listen(sock_listen, 10) < 0)
-			printf("Error en el listen\n");
-		int i=0;
-		int r;
-		int sockets[100];
-		pthread_t thread[100];
-		for(;;)
-		{
-			printf("Preparado para recibir la peticion\n");
-			sock_conn = accept(sock_listen, NULL, NULL);
-			printf("He recibido la conexion \n");	
-			
-			
-			sockets[i] = sock_conn;		
-			pthread_create (&thread[i], NULL, AtenderCliente,&sockets[i]);
-			i++;
-		}
+	int sock_conn, sock_listen;
+	struct sockaddr_in serv_adr;
+	
+	if ((sock_listen = socket(AF_INET, SOCK_STREAM, 0)) < 0)
+		printf("Error creant socket\n");
+	memset(&serv_adr, 0, sizeof(serv_adr));
+	serv_adr.sin_family = AF_INET;
+	serv_adr.sin_addr.s_addr = htonl(INADDR_ANY); 
+	serv_adr.sin_port = htons(50010);
+	if (bind(sock_listen, (struct sockaddr *) &serv_adr, sizeof(serv_adr)) < 0)
+		printf("Error al bind\n");
+	if (listen(sock_listen, 10) < 0)
+		printf("Error en el listen\n");
+	int i=0;
+	int r;
+	int sockets[100];
+	pthread_t thread[100];
+	for(;;)
+	{
+		printf("Preparado para recibir la peticion\n");
+		sock_conn = accept(sock_listen, NULL, NULL);
+		printf("He recibido la conexion \n");	
+		
+		
+		sockets[i] = sock_conn;		
+		pthread_create (&thread[i], NULL, AtenderCliente,&sockets[i]);
+		i++;
+	}
 }
-
-
